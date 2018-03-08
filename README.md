@@ -71,7 +71,7 @@ The difference between the 32-bit wasm environment and the native 64 bit C++ com
 * In native mode, any variables will not have their values reset between action executions. In wasm mode, each action execution is like running a program from scratch, whereas in native mode each action execution occurs in the same context.
 * Floating point types may act differently
 * Memory access violations and other C++ problems will not be handled by eosiod but will bring the process down (but can now be studied in the debugger)
-* For a variety of reasons, some intrinsics (calls that normally cross the wasm/native space) are not currently implemented. Any intrinsics not implemented will result in missing symbols at link time.
+* For a variety of reasons, some intrinsics (calls that normally cross the wasm/native space) are not currently implemented. Any intrinsics not implemented will result in missing symbols at link time of your contract's shared library.
 
 ### Warnings
 
