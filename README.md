@@ -21,7 +21,7 @@ add_wast_executable(TARGET currency
 
 2. Rebuild using the eosio_build.sh script
 3. Modify a config.ini file for a single-producer, standalone eosiod node to load the debug_plugin and configure it for your contract. Here is a sample file with debugging enabled for the currency contract:
-```
+<pre>
 genesis-json = ./genesis.json
 block-log-dir = blocks
 readonly = 0
@@ -39,15 +39,15 @@ plugin = eosio::account_history_api_plugin
 plugin = eosio::wallet_api_plugin
 plugin = eosio::wallet_plugin
 
-plugin = eosio::debug_plugin
+<b>plugin = eosio::debug_plugin
 debug-account-name = currency
 debug-action-name = issue
 debug-action-name = transfer
-debug-library-name = /home/eos_dev/eos/build/contracts/currency/libcurrency_deb.so
-```
+debug-library-name = /home/eos_dev/eos/build/contracts/currency/libcurrency_deb.so</b>
+</pre>
 4. Load eosiod into your debugger, set a breakpoint in your contract, and run with the normal options for your standalone node.  Because your contract will be dynamically loaded as a shared library, it may be tricky to specify breakpoints in your contract until after the blockchain's configuration occurs. An easy way around this is to set a breakpoint on the contract's global apply() function and then add other breakpoints after it is triggered. An example using gdb and a breakpoint on apply(), looks like this:
-```
-$ gdb ./programs/eosiod/eosiod
+<pre>
+$ <b>gdb ./programs/eosiod/eosiod</b>
 GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1
 Copyright (C) 2016 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
@@ -63,12 +63,12 @@ Find the GDB manual and other documentation resources online at:
 For help, type "help".
 Type "apropos word" to search for commands related to "word"...
 Reading symbols from ./programs/eosiod/eosiod...done.
-(gdb) break apply
+(gdb) <b>break apply</b>
 Function "apply" not defined.
 Make breakpoint pending on future shared library load? (y or [n]) y
 Breakpoint 1 (apply) pending.
-(gdb) run --enable-stale-production true --data-dir my_tn_data_00
-```
+(gdb) <b>run --enable-stale-production true --data-dir my_tn_data_00</b>
+</pre>
 5. Your eosiod node should now be running in the debugger and will break when the contract's apply function is called. In another window you should do all the normal set up functions that are needed on a new eosio blockchain instance (loading a system contract, issuing tokens, creating accounts, setting the contract on the account you want to test). Note, that you still need to load the wast file via "set contract" even though we are actually running the code natively. The first time you issue an action that you have registered in the config.ini for debugging, the breakpoint on your apply() function should trigger.
 6. Debug as you would any C++ program.
 
