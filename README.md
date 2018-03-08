@@ -3,7 +3,7 @@
 The debug plugin allows for the execution of EOS.IO smart contracts that have been compiled using the native C++ compiler.
 The general approach is to enable native compilation of your contract, configure a local eosiod instance to load the debug_plugin, and configure the debug_plugin with the defaults of your native contract. You can then launch eosiod in your favorite debugger, set breakpoints in your contract and use the debugger to step through your contract.
 
-# How to debug your contract
+### How to debug your contract
 
 1. Enable native compilation of your contract. Assuming you are using the EOS.IO cmake system, this is easily done by passing the add_wast_executable macro the DEBUG_FLAG option a value of true and rebuilding. In addition to building the wasm targets for that contract it will also build a shared library version built using your native compiler. For example, to debug the currency contract, modify the currency contract's build file (contracts/currency/CMakeLists.txt) as follows:
 
@@ -72,7 +72,7 @@ Breakpoint 1 (apply) pending.
 5. Your eosiod node should now be running in the debugger and will break when the contract's apply function is called. In another window you should do all the normal set up functions that are needed on a new eosio blockchain instance (loading a system contract, issuing tokens, creating accounts, setting the contract on the account you want to test). Note, that you still need to load the wast file via "set contract" even though we are actually running the code natively. The first time you issue an action that you have registered in the config.ini for debugging, the breakpoint on your apply() function should trigger.
 6. Debug as you would any C++ program.
 
-# Limitations
+### Limitations
 
 The difference between the 32-bit wasm environment and the native 64 bit C++ compiler mean that some things will not work in the native debugging environment and some will work differently. Some important differences are:
 * Most of the platform-specific types, such as int, long, and size_t, will have different sizes and should not be used in the external APIs of your contract and should be avoided in general.
@@ -86,7 +86,7 @@ The difference between the 32-bit wasm environment and the native 64 bit C++ com
 * Memory access violations and other C++ problems will not be handled by eosiod but will bring the process down (but can now be studied in the debugger)
 * For a variety of reasons, some intrinsics (calls that normally cross the wasm/native space) are not currently implemented. Any intrinsics not implemented will result in missing symbols at link time.
 
-# Warnings
+### Warnings
 
 * Only run natively-compiled contracts in a standalone nodes
 * Do not configure the debug_plugin and natively-compiled contracts in nodes connected to public or test networks
