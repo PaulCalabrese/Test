@@ -7,7 +7,7 @@ The general approach is to enable native compilation of your contract, configure
 
 1. Enable native compilation of your contract. Assuming you are using the EOS.IO cmake system, this is easily done by setting  the the DEBUG_FLAG option on the add_wast_executable macro and rebuilding. In addition to building the wasm targets for that contract it will also build a shared library version using your native compiler. For example, to debug the currency contract, modify the currency contract's build file (contracts/currency/CMakeLists.txt) as follows:
 
-```
+<pre>
 file(GLOB ABI_FILES "*.abi")
 configure_file("${ABI_FILES}" "${CMAKE_CURRENT_BINARY_DIR}" COPYONLY)
 
@@ -15,9 +15,9 @@ add_wast_executable(TARGET currency
   INCLUDE_FOLDERS "${STANDARD_INCLUDE_FOLDERS}"
   LIBRARIES libc++ libc eosiolib
   DESTINATION_FOLDER ${CMAKE_CURRENT_BINARY_DIR}
-  DEBUG_FLAG true
+  <b>DEBUG_FLAG true</b>
 )
-```
+</pre>
 
 2. Rebuild using the eosio_build.sh script
 3. Modify a config.ini file for a single-producer, standalone eosiod node to load the debug_plugin and configure it for your contract. Here is a sample file with debugging enabled for the currency contract:
